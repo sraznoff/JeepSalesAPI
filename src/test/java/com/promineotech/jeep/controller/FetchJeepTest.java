@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -30,9 +32,9 @@ class FetchJeepTest {
 	@LocalServerPort
 	private int serverPort;
 	
-	
+	/*
 	@Test
-	void testThatJeepsAreReturnedWhenAValidModelAndTrimAreSupplied() {
+	void testThatAValidCodeIsReturnedWhenAValidModelAndTrimAreSupplied() {
 		JeepModel model = JeepModel.WRANGLER;
 		String trim = "Sport";
 		String uri = String.format("http://localhost:%d/jeeps?model=%s&trim=%s", serverPort, model, trim);
@@ -40,9 +42,41 @@ class FetchJeepTest {
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		System.out.println(response.toString());
 	}
+	*/
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void testThatJeepsAreReturnedWhenAValidModelAndTrimAreSupplied(){
+		//Given 
+		JeepModel model = JeepModel.WRANGLER;
+		String trim = "Sport";
+		String uri = String.format("http://localhost:%d/jeeps?model=%s&trim=%s", serverPort, model, trim);
+		//When
+		ResponseEntity<List<Jeep>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+		//Then
+		List<Jeep> expected = buildExpected();
+		assertThat(response.getBody()).isEqualTo(expected);
 	}
+	private List<Jeep> buildExpected() {
+		List<Jeep> list = new LinkedList<>();
+		//formatter:off
+		list.add(Jeep.builder()
+				.modelID(JeepModel.WRANGLER)
+				.trimLevel("Sport")
+				.numDoors(2)
+				.wheelSize(17)
+				.basePrice(new BigDecimal(28475.00))
+				.build());
+
+		list.add(Jeep.builder()
+				.modelID(JeepModel.WRANGLER)
+				.trimLevel("Sport")
+				.numDoors(4)
+				.wheelSize(17)
+				.basePrice(new BigDecimal(31975.00))
+				.build());
+		
+		//formatter:on
+		return list;
+	}
+
 
 }
