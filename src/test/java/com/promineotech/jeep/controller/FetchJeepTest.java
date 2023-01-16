@@ -63,7 +63,7 @@ class FetchJeepTest {
 				.trimLevel("Sport")
 				.numDoors(2)
 				.wheelSize(17)
-				.basePrice(new BigDecimal(28475.00))
+				.basePrice(new BigDecimal("28475.00"))
 				.build());
 
 		list.add(Jeep.builder()
@@ -71,7 +71,7 @@ class FetchJeepTest {
 				.trimLevel("Sport")
 				.numDoors(4)
 				.wheelSize(17)
-				.basePrice(new BigDecimal(31975.00))
+				.basePrice(new BigDecimal("31975.00"))
 				.build());
 		
 		//formatter:on
